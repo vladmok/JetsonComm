@@ -1,10 +1,9 @@
-import serial;
 
-"""with serial.Serial('COM5', 115200) as ser:
-    x = ser.read();
-    x = ser.read(10);
-    line = 
-arduino = serial.Serial('COM6', 115200);"""
+import serial
+ser = serial.Serial('COM5', 115200)
+
+while True:
+    data = ser.readline()
 
 def passByte(b):
     print("Passing byte " + str(b))
@@ -17,16 +16,22 @@ def backward():
     print("Backward")
     passByte(1)
 
-def turn(d):
-    print("Turn in dir: " + str(d))
-    """ if d == 0 """
+def halt():
+    print("Stopping")
     passByte(2)
-    """ else if d == 1 """
-    passByte(3)
+
+def turn(d):
+    print("Turning: " + str(d))
+
+    if d == 0:
+        passByte(3)
+    elif d == 1:
+        passByte(4)
 
 def main():
     forward()
     backward()
+    halt()
     turn(1)
 
 if __name__ == "__main__":
