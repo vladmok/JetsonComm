@@ -1,13 +1,25 @@
 
 import serial
-ser = serial.Serial('COM5', 115200)
+
+ser = serial.Serial('COM5', 9600)
+#print ser.readline()
 
 while True:
-    data = ser.readline()
+
+    i = input("Enter input: ")
+
+    if i == 0:
+        ser.write(str(i))
+        print("Forward")
+
+    elif i == 1:
+        ser.write(str(i))
+        print("Backward")
 
 def passByte(b):
     print("Passing byte " + str(b))
-    
+    ser.write(str(b))
+
 def forward():
     print("Forward")
     passByte(0)
