@@ -1,11 +1,10 @@
 import serial
 
-ser = serial.Serial('/dev/cu.usbmodem1421', 9600)
+ser = serial.Serial('/dev/cu.usbmodem1421', 115200)
 
 def passByte(b):
     print("Passing byte " + str(b))
-    ser.write(bytes([b]))
-    print(ser.readline())
+    ser.write(bytes([int(b)]))
 
 def forward():
     print("Forward")
@@ -28,10 +27,14 @@ def turn(d):
         passByte(4)
 
 def main():
-    forward()
-    backward()
-    halt()
-    turn(1)
+    #forward()
+    #backward()
+    #halt()
+    #turn(1)
+    while True:
+        inputStr = input();
+        passByte(inputStr[0])
+
 
 
 if __name__ == "__main__":
