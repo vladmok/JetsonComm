@@ -1,24 +1,11 @@
-
 import serial
 
-ser = serial.Serial('COM5', 9600)
-#print ser.readline()
-
-while True:
-
-    i = input("Enter input: ")
-
-    if i == 0:
-        ser.write(str(i))
-        print("Forward")
-
-    elif i == 1:
-        ser.write(str(i))
-        print("Backward")
+ser = serial.Serial('/dev/cu.usbmodem1421', 9600)
 
 def passByte(b):
     print("Passing byte " + str(b))
-    ser.write(str(b))
+    ser.write(bytes([b]))
+    print(ser.readline())
 
 def forward():
     print("Forward")
@@ -46,8 +33,6 @@ def main():
     halt()
     turn(1)
 
+
 if __name__ == "__main__":
     main()
-    
-
-
