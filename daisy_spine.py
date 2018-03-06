@@ -3,7 +3,7 @@ from sys import argv
 
 class DaisySpine:
     ser = None
-    def __init__(self, com_port = "/dev/ttyACM0", baud_rate = 28800, time_out = 1):
+    def __init__(self, com_port = "COM5", baud_rate = 28800, time_out = 1):
         self.ser = serial.Serial(com_port, baud_rate, timeout = time_out)
 
     def read_line(self):
@@ -85,7 +85,6 @@ class DaisySpine:
     
     speed = 200
     movement = ' '
-    packet = bytearray([movement, speed])
     def forward(self):
         movement = 'f'
         print("Forward")
@@ -111,7 +110,11 @@ class DaisySpine:
             movement = 'l'
             self.pass_byte(3)
 
-    ser.write(packet)
+    def forward_speed(self, speed):
+        self.forward()
+        print("Passing speed")
+        print(self.pass_byte(speed))
+
     
 
 if __name__ == "__main__":
@@ -126,5 +129,8 @@ if __name__ == "__main__":
     while True:
         # spine.forward()
         input_str = input()
+        print(input_str)
         if (len(input_str) > 0):
-            print(spine.pass_byte(input_str))
+            print("CallingFunction")
+            spine.forward_speed(input_str)
+            #print(spine.pass_byte(input_str))
