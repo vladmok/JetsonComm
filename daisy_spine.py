@@ -3,7 +3,7 @@ from sys import argv
 
 class DaisySpine:
     ser = None
-    def __init__(self, com_port = "COM5", baud_rate = 28800, time_out = 1):
+    def __init__(self, com_port = "COM5", baud_rate = 19200, time_out = 1):
         self.ser = serial.Serial(com_port, baud_rate, timeout = time_out)
 
     def read_line(self):
@@ -68,13 +68,13 @@ class DaisySpine:
     def pass_byte(self, b):
         self.ser.reset_input_buffer()
         self.ser.reset_output_buffer()
-
         if (int(b) > 255 or int(b) < 0):
             print("Byte out of range: " + b)
             return
 
         self.pass_byte_basic(b)
         ret = self.read_all_lines()
+
 
         self.ser.reset_input_buffer()
         self.ser.reset_output_buffer()
@@ -84,7 +84,7 @@ class DaisySpine:
 #Test Movement Comm. Code: f = Forward, b = Backward, r = Right, l = Left, s = Stop
     
 
-    def forward(self):
+    """def forward(self):
         movement = 'f'
         speed = 200
         print("Forward")
@@ -108,13 +108,15 @@ class DaisySpine:
             self.pass_byte(2)
         elif d == 1:
             movement = 'l'
-            self.pass_byte(3)
+            self.pass_byte(3)"""
 
-    def movement(self, b):
+    def movement(self):
         direction = 'f'
         speed = 200
-        b = bytearray([ord(direction), speed])
-        self.ser.write(b)
+        #b = bytearray([ord(direction), speed])
+        print(self.pass_byte(ord(direction)))
+        print(self.pass_byte(speed))
+    
     
 
 if __name__ == "__main__":
@@ -125,9 +127,8 @@ if __name__ == "__main__":
         spine = DaisySpine()
 
     print(spine.read_all_lines())
-    #spine.halt();
+
+
     while True:
-        spine.movement()
         input_str = input()
-        if (len(input_str) > 0):
-            print(spine.pass_byte(input_str))
+        spine.movement()
