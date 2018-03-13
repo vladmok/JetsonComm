@@ -31,7 +31,7 @@ void loop() {
   Serial.print("INPUT SPEED: ");
   Serial.println(inSpeed);
   
-  if (inByte == 'm') { // move forward
+  if (inByte == 'f') { // move forward
     Serial.println("Forward");
   } else if (inByte == 'l') { //turn left
     Serial.println("Left");

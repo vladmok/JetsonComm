@@ -83,12 +83,12 @@ class DaisySpine:
 
 #Test Movement Comm. Code: f = Forward, b = Backward, r = Right, l = Left, s = Stop
     
-    speed = 200
-    movement = ' '
+
     def forward(self):
         movement = 'f'
+        speed = 200
         print("Forward")
-        self.pass_byte(1)
+        self.pass_byte(ord(movement))
 
     def backward(self):
         movement = 'b'
@@ -110,11 +110,11 @@ class DaisySpine:
             movement = 'l'
             self.pass_byte(3)
 
-    def forward_speed(self, speed):
-        self.forward()
-        print("Passing speed")
-        print(self.pass_byte(speed))
-
+    def movement(self, b):
+        direction = 'f'
+        speed = 200
+        b = bytearray([ord(direction), speed])
+        self.ser.write(b)
     
 
 if __name__ == "__main__":
@@ -125,12 +125,9 @@ if __name__ == "__main__":
         spine = DaisySpine()
 
     print(spine.read_all_lines())
-    spine.halt();
+    #spine.halt();
     while True:
-        # spine.forward()
+        spine.movement()
         input_str = input()
-        print(input_str)
         if (len(input_str) > 0):
-            print("CallingFunction")
-            spine.forward_speed(input_str)
-            #print(spine.pass_byte(input_str))
+            print(spine.pass_byte(input_str))
