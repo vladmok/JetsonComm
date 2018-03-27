@@ -20,17 +20,22 @@ void loop() {
   
   currTime = millis();
   
-  while (!Serial.available() && currTime - lastMoveCmd < MOVE_TIMEOUT) {
+  while ((Serial.available() < 2) && (currTime - lastMoveCmd < MOVE_TIMEOUT)) {
     currTime = millis();
   }
 
   int packet[2];
-  while(Serial.available() < 2) {
-    
-    for(int n = 0; n < 2; n++){
-      packet[n] = Serial.read(); // read the incoming data
-    }
-  }
+  int bytes_read = 0;
+  
+  while (bytes_read < 2) {
+    if(Serial.available() > 0) {
+        packet[bytes_read] = Serial.read(); // read the incoming data
+        bytes_read++;
+      }
+    }    
+
+
+
   
   char inByte = packet[0];
   int inSpeed = packet[1];  
@@ -39,23 +44,21 @@ void loop() {
   Serial.println(inByte); // send the data back in a new line so that it is not all one long line
   Serial.print("INPUT SPEED: ");
   Serial.println(inSpeed);
-
-  Serial.write("TEST");
   
   if (inByte == 'f') { // move forward
-    Serial.println("Forward");
+    Serial.println(" Forward ");
   } else if (inByte == 'l') { //turn left
-    Serial.println("Left");
+    Serial.println(" Left ");
   } else if (inByte == 'r') { //turn right
-    Serial.println("Right");
+    Serial.println(" Right ");
   } else if (inByte == 'b') { // move backwards
-    Serial.println("Backward");
+    Serial.println(" Backward ");
   } else if (inByte == 's') { // stop
-    Serial.println("Stop");
+    Serial.println(" Stop ");
   } else {
-    Serial.println("Error");  
+    Serial.println(" Error ");  
   }
-  
+
 }
 
 
